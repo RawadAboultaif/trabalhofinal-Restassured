@@ -1,5 +1,6 @@
 package br.com.dbccompany.services;
 
+import br.com.dbccompany.dto.PessoaCreateDTO;
 import br.com.dbccompany.dto.PessoaDTO;
 import br.com.dbccompany.dto.ResponseDTO;
 import br.com.dbccompany.utils.Login;
@@ -29,8 +30,8 @@ public class PessoaService {
         return result;
     }
 
-    public void deletarUser(Integer idPessoa) {
-
+    public Response deletarUser(Integer idPessoa) {
+        Response response =
                 given()
                         .header("Authorization", tokenAdm)
                 .when()
@@ -38,6 +39,23 @@ public class PessoaService {
                 .then()
                         .log().all()
                         .statusCode(200)
+                        .extract().response()
                 ;
+        return response;
+    }
+    public PessoaDTO atualizarUsuario(Object jsonBody, Integer idPessoa) {
+
+        PessoaDTO result =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .body(jsonBody)
+                        .when()
+                        .put(baseUrl + "/pessoa/" + idPessoa)
+                        .then()
+                        .statusCode(200)
+                        .extract().as(PessoaDTO.class)
+                ;
+        return result;
     }
 }
