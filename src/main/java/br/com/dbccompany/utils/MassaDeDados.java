@@ -27,14 +27,17 @@ public class MassaDeDados {
 
         HashMap<String, Object> params = new HashMap<>();
 
-        params.put("tipo", "Comercial");
-        params.put("logradouro", faker.address().streetName());
+
+        params.put("tipo", "COMERCIAL");
+        params.put("logradouro", (faker.address().streetName()).replaceAll(" ", ""));
         params.put("numero", faker.address().streetAddressNumber());
-        params.put("complemento", faker.address().lastName());
-        params.put("cep", faker.address().zipCode());
-        params.put("cidade", faker.address().cityName());
-        params.put("estado", faker.address().state());
-        params.put("pais", faker.address().country());
+        params.put("complemento", faker.address().lastName().replaceAll(" ", ""));
+        params.put("cep", "99998888");
+        params.put("cidade", faker.address().cityPrefix().replaceAll(" ", ""));
+        params.put("estado", faker.address().state().replaceAll(" ", ""));
+        params.put("pais", faker.address().country().replaceAll(" ", ""));
+
+
 
         return params;
     }

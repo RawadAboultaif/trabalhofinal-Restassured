@@ -7,14 +7,14 @@ import lombok.Data;
 @JsonIgnoreProperties
 public class EnderecoDTO {
 
-    private Integer idPessoa;
+    private int idPessoa;
     private String tipo;
     private String logradouro;
-    private Integer numero;
+    private int numero;
     private String complemento;
     private String cep;
     private String cidade;
     private String estado;
     private String pais;
-    private Integer idEndereco;
+    private int idEndereco;
 }
