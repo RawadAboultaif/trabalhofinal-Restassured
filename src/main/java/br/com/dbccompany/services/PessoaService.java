@@ -1,11 +1,12 @@
 package br.com.dbccompany.services;
 
-import br.com.dbccompany.dto.PessoaCreateDTO;
-import br.com.dbccompany.dto.PessoaDTO;
-import br.com.dbccompany.dto.ResponseDTO;
+import br.com.dbccompany.dto.*;
 import br.com.dbccompany.utils.Login;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
@@ -49,13 +50,94 @@ public class PessoaService {
                 given()
                         .log().all()
                         .contentType(ContentType.JSON)
+                        .header("Authorization", tokenAdm)
                         .body(jsonBody)
-                        .when()
+                .when()
                         .put(baseUrl + "/pessoa/" + idPessoa)
-                        .then()
+                .then()
                         .statusCode(200)
                         .extract().as(PessoaDTO.class)
                 ;
         return result;
     }
+
+    public ListaPessoasDTO listarUsuarios(Integer pagina, Integer tamanhoDasPaginas) {
+
+        ListaPessoasDTO result =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", tokenAdm)
+                        .queryParam("pagina", pagina)
+                        .queryParam("tamanhoDasPaginas", tamanhoDasPaginas)
+                .when()
+                        .get(baseUrl + "/pessoa")
+                .then()
+                        .extract().as(ListaPessoasDTO.class)
+                ;
+        return result;
+    }
+
+    public PessoaDTO buscarPorCpf(String cpf) {
+
+        PessoaDTO result =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", tokenAdm)
+                    .when()
+                        .get(baseUrl + "/pessoa/"+cpf+"/cpf")
+                    .then()
+                        .extract().as(PessoaDTO.class)
+                ;
+        return result;
+    }
+
+    public PessoaDTO[] buscarPorNome(String nome) {
+
+        PessoaDTO[] result =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", tokenAdm)
+                        .queryParam("nome", nome)
+                  .when()
+                        .get(baseUrl + "/pessoa/byname")
+                .then()
+                        .extract().as(PessoaDTO[].class)
+                ;
+        return result;
+    }
+
+    public PessoaContatosDTO[] buscarListaComContatos(Integer IdPessoa) {
+
+        PessoaContatosDTO[] result =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", tokenAdm)
+                        .queryParam("idPessoa", IdPessoa)
+                .when()
+                        .get(baseUrl + "/pessoa/lista-com-contatos")
+                .then()
+                        .extract().as(PessoaContatosDTO[].class)
+                ;
+        return result;
+    }
+
+//    public PessoaDTO[] buscarDataNascimento(String dtInicial, String dtFinal) {
+//
+//        PessoaDTO[] result =
+//                given()
+//                        .log().all()
+//                        .contentType(ContentType.JSON)
+//                        .header("Authorization", tokenAdm)
+//                .when()
+//                        .get(baseUrl + "/pessoa/data-nascimento?data="+dtInicial+"&dtFinal="+dtFinal)
+//                .then()
+//                        .statusCode(200)
+//                        .extract().as(PessoaDTO[].class)
+//                ;
+//        return result;
+//    }
 }

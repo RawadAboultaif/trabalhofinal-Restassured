@@ -41,4 +41,19 @@ public class MassaDeDados {
 
         return params;
     }
+
+
+    public static HashMap<String, Object> criarContatos() {
+        Faker faker = new Faker();
+
+        HashMap<String, Object> params = new HashMap<>();
+
+
+        params.put("tipoContato", "COMERCIAL");
+        params.put("telefone", faker.number().digits(9));
+        params.put("descricao", "whatsapp");
+
+
+        return params;
+    }
 }

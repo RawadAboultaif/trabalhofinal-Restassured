@@ -20,8 +20,6 @@ public class EnderecoService {
                         .header("Authorization", tokenAdm)
                         .contentType(ContentType.JSON)
                         .body(jsonBody)
-//                        .pathParam("idPessoa", idPessoa)
-//                        .queryParam("idPessoa", idPessoa)
                 .when()
                         .post(baseUrl + "endereco/" + idPessoa)
                 .then()

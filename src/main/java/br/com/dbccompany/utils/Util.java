@@ -1,8 +1,6 @@
 package br.com.dbccompany.utils;
 
-import br.com.dbccompany.dto.EnderecoCreateDTO;
-import br.com.dbccompany.dto.PessoaCreateDTO;
-import br.com.dbccompany.dto.PessoaDTO;
+import br.com.dbccompany.dto.*;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -10,6 +8,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Util {
@@ -41,6 +41,18 @@ public class Util {
 
         Gson gson = new Gson();
         EnderecoCreateDTO objJson = gson.fromJson(jsonBody, EnderecoCreateDTO.class);
+
+        return objJson;
+    }
+
+    public static  ContatoCreateDTO novoContato() throws IOException {
+
+        JsonManipulation.criarJsonContato();
+        String jsonBody = lerJson("src/test/resources/data/contato.json");
+
+        Gson gson = new Gson();
+        ContatoCreateDTO objJson = gson.fromJson(jsonBody, ContatoCreateDTO.class);
+
 
         return objJson;
     }
