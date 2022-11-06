@@ -9,7 +9,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.List;
 
 public class ContatoAceitacao {
 
@@ -109,13 +108,13 @@ public class ContatoAceitacao {
         Response resultContato = service.adicionarContatoComCampoNulo(novoContato, resultService.getIdPessoa());
 
 
-        Assert.assertEquals(resultContato.getStatusCode(), 404);
+        Assert.assertEquals(resultContato.getStatusCode(), 400);
 
         servicePessoa.deletarUser(resultService.getIdPessoa());
     }
 
     @Test
-    public void testeDeletarContatoInexistente() throws IOException {
+    public void testeDeletarContatoInexistente() {
         Integer idContatoInexistente = -8;
 
         Response responseService = service.deletarContatoInexistente(idContatoInexistente);
@@ -124,7 +123,7 @@ public class ContatoAceitacao {
     }
 
     @Test
-    public void testeAtualizarContatoInexistente() throws IOException {
+    public void testeAtualizarContatoInexistente() {
         Integer idContatoInexistente = 3458;
 
         Response responseService = service.atualizarContatoInexistente(idContatoInexistente);
@@ -139,9 +138,8 @@ public class ContatoAceitacao {
         Assert.assertEquals(resultResponse.getStatusCode(), 403);
     }
     @Test
-    public void deveListarContatosPorIdPessoaInexistente() throws IOException {
+    public void deveListarContatosPorIdPessoaInexistente() {
         Integer idPessoaInexistente = -36;
-
 
         Response resultResponse = service.buscarContatoPorIdPessoaInexistente(idPessoaInexistente);
 

@@ -1,10 +1,8 @@
 package br.com.dbccompany.services;
 
-import br.com.dbccompany.dto.ContatoCreateDTO;
 import br.com.dbccompany.dto.ContatoDTO;
-import br.com.dbccompany.dto.ListaPessoasDTO;
-import br.com.dbccompany.dto.PessoaDTO;
 import br.com.dbccompany.utils.Login;
+
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
@@ -106,11 +104,10 @@ public class ContatoService {
                         .header("Authorization", tokenAdm)
                         .contentType(ContentType.JSON)
                         .body(jsonBody)
-                        .when()
+                .when()
                         .post(baseUrl + "/contato/"+idPessoa)
-                        .then()
+                .then()
                         .log().all()
-                        .statusCode(404)
                         .extract().response()
                 ;
         return result;
@@ -122,9 +119,9 @@ public class ContatoService {
                 given()
                         .log().all()
                         .header("Authorization", tokenAdm)
-                        .when()
+                .when()
                         .delete(baseUrl + "/contato/"+idContato)
-                        .then()
+                .then()
                         .log().all()
                         .statusCode(404)
                         .extract().response()
@@ -138,11 +135,10 @@ public class ContatoService {
                 given()
                         .log().all()
                         .header("Authorization", tokenAdm)
-                        .when()
+                .when()
                         .put(baseUrl + "/contato/"+idContato)
-                        .then()
+                .then()
                         .log().all()
-                        .statusCode(404)
                         .extract().response()
                 ;
         return result;
@@ -154,9 +150,9 @@ public class ContatoService {
                 given()
                         .log().all()
                         .contentType(ContentType.JSON)
-                        .when()
+                .when()
                         .get(baseUrl + "/contato")
-                        .then()
+                .then()
                         .log().all()
                         .statusCode(403)
                         .extract().response()
@@ -169,9 +165,9 @@ public class ContatoService {
                 given()
                         .log().all()
                         .header("Authorization", tokenAdm)
-                        .when()
+                .when()
                         .get(baseUrl + "/contato/"+idPessoa)
-                        .then()
+                .then()
                         .log().all()
                         .statusCode(404)
                         .extract().response()

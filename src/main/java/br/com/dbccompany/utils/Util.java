@@ -2,26 +2,17 @@ package br.com.dbccompany.utils;
 
 import br.com.dbccompany.dto.*;
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
-import java.io.StringReader;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 public class Util {
     public static String lerJson(String caminhoJson) throws IOException {
         return new String(Files.readAllBytes(Paths.get(caminhoJson)));
-    }
-
-    public void percorrerHaspMapEndereco() throws IOException {
-
-        String jsonBody = lerJson("src/test/resources/data/endereco.json");
-
-
     }
 
     public static PessoaCreateDTO novaPessoa() throws IOException {
@@ -52,7 +43,6 @@ public class Util {
 
         Gson gson = new Gson();
         ContatoCreateDTO objJson = gson.fromJson(jsonBody, ContatoCreateDTO.class);
-
 
         return objJson;
     }

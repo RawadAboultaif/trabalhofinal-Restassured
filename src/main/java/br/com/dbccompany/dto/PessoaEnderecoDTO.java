@@ -3,11 +3,11 @@ package br.com.dbccompany.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @JsonIgnoreProperties
-public class ResponseDTO {
+public class PessoaEnderecoDTO extends PessoaDTO{
 
-    private String code;
-    private String type;
-    private String message;
+    private List<EnderecoDTO> enderecos;
 }

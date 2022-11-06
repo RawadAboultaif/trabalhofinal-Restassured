@@ -5,9 +5,6 @@ import br.com.dbccompany.utils.Login;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static io.restassured.RestAssured.given;
 
 public class PessoaService {
@@ -27,7 +24,6 @@ public class PessoaService {
                         .log().all()
                         .extract().as(PessoaDTO.class)
                 ;
-
         return result;
     }
 
@@ -125,24 +121,6 @@ public class PessoaService {
         return result;
     }
 
-//    public PessoaDTO[] buscarDataNascimento(String dtInicial, String dtFinal) {
-//
-//        PessoaDTO[] result =
-//                given()
-//                        .log().all()
-//                        .contentType(ContentType.JSON)
-//                        .header("Authorization", tokenAdm)
-//                .when()
-//                        .get(baseUrl + "/pessoa/data-nascimento?data="+dtInicial+"&dtFinal="+dtFinal)
-//                .then()
-//                        .statusCode(200)
-//                        .extract().as(PessoaDTO[].class)
-//                ;
-//        return result;
-//    }
-
-
-
     // Cenários Negativos:
 
     public Response adicionarUsuariocomCamposNulos(Object jsonBody) {
@@ -152,14 +130,13 @@ public class PessoaService {
                         .header("Authorization", tokenAdm)
                         .contentType(ContentType.JSON)
                         .body(jsonBody)
-                        .when()
+                .when()
                         .post(baseUrl + "/pessoa")
-                        .then()
+                .then()
                         .log().all()
                         .statusCode(400)
                         .extract().response()
                 ;
-
         return response;
     }
 
@@ -167,9 +144,9 @@ public class PessoaService {
         Response response =
                 given()
                         .header("Authorization", tokenAdm)
-                        .when()
+                .when()
                         .delete(baseUrl + "/pessoa/"+idPessoa)
-                        .then()
+                .then()
                         .log().all()
                         .statusCode(404)
                         .extract().response()
@@ -181,11 +158,10 @@ public class PessoaService {
         Response response =
                 given()
                         .header("Authorization", tokenAdm)
-                        .when()
+                .when()
                         .put(baseUrl + "/pessoa/"+idPessoaInexistente)
-                        .then()
+                .then()
                         .log().all()
-                        .statusCode(404)
                         .extract().response()
                 ;
         return response;
@@ -200,9 +176,9 @@ public class PessoaService {
                         .header("Authorization", tokenAdm)
                         .queryParam("pagina", pagina)
                         .queryParam("tamanhoDasPaginas", tamanhoDasPaginas)
-                        .when()
+                .when()
                         .get(baseUrl + "/pessoa")
-                        .then()
+                .then()
                         .log().all()
                         .statusCode(500)
                         .extract().response()
@@ -216,11 +192,10 @@ public class PessoaService {
                         .log().all()
                         .contentType(ContentType.JSON)
                         .header("Authorization", tokenAdm)
-                        .when()
+                .when()
                         .get(baseUrl + "/pessoa/"+cpf+"/cpf")
-                        .then()
+                .then()
                         .log().all()
-                        .statusCode(500)
                         .extract().response()
                 ;
         return result;
@@ -233,9 +208,9 @@ public class PessoaService {
                         .contentType(ContentType.JSON)
                         .header("Authorization", tokenAdm)
                         .queryParam("idPessoa", idPessoa)
-                        .when()
+                .when()
                         .get(baseUrl + "/pessoa/lista-com-contatos")
-                        .then()
+                .then()
                         .log().all()
                         .statusCode(404)
                         .extract().response()
@@ -251,12 +226,44 @@ public class PessoaService {
                         .contentType(ContentType.JSON)
                         .header("Authorization", tokenAdm)
                         .queryParam("numero", numero)
-                        .when()
+                .when()
                         .get(baseUrl + "/pessoa/byname")
-                        .then()
+                .then()
                         .log().all()
                         .statusCode(400)
                         .extract().response()
+                ;
+        return result;
+    }
+
+    public PessoaEnderecoDTO[] buscarListaEnderecosUsuario(Integer idPessoa) {
+        PessoaEnderecoDTO[] result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdm)
+                        .contentType(ContentType.JSON)
+                        .queryParam("idPessoa", idPessoa)
+                .when()
+                        .get(baseUrl + "/pessoa/lista-com-enderecos")
+                .then()
+                        .log().all()
+                        .extract().as(PessoaEnderecoDTO[].class)
+                ;
+        return result;
+    }
+
+    public ListaCompletaUsuarioDTO[] buscarListaCompletaUsuario(Integer idPessoa) {
+        ListaCompletaUsuarioDTO[] result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdm)
+                        .contentType(ContentType.JSON)
+                        .queryParam("idPessoa", idPessoa)
+                .when()
+                        .get(baseUrl + "/pessoa/lista-completa")
+                .then()
+                        .log().all()
+                        .extract().as(ListaCompletaUsuarioDTO[].class)
                 ;
         return result;
     }

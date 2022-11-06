@@ -2,9 +2,9 @@ package br.com.dbccompany.utils;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
+
 
 public class JsonManipulation {
     public static void criarJsonPessoa() {

@@ -27,7 +27,6 @@ public class MassaDeDados {
 
         HashMap<String, Object> params = new HashMap<>();
 
-
         params.put("tipo", "COMERCIAL");
         params.put("logradouro", (faker.address().streetName()).replaceAll(" ", ""));
         params.put("numero", faker.address().streetAddressNumber());
@@ -36,8 +35,6 @@ public class MassaDeDados {
         params.put("cidade", faker.address().cityPrefix().replaceAll(" ", ""));
         params.put("estado", faker.address().state().replaceAll(" ", ""));
         params.put("pais", faker.address().country().replaceAll(" ", ""));
-
-
 
         return params;
     }
@@ -48,11 +45,9 @@ public class MassaDeDados {
 
         HashMap<String, Object> params = new HashMap<>();
 
-
         params.put("tipoContato", "COMERCIAL");
         params.put("telefone", faker.number().digits(9));
         params.put("descricao", "whatsapp");
-
 
         return params;
     }

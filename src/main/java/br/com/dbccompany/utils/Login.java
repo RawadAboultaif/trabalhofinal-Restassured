@@ -22,7 +22,6 @@ public class Login {
                         .statusCode(200)
                         .extract().asString()
                 ;
-
         return result;
     }
 }
