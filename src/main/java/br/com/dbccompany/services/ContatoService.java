@@ -64,7 +64,6 @@ public class ContatoService {
         return result;
     }
 
-    @Test
     public ContatoDTO atualizarContato(Object jsonBody, Integer idContato) {
         ContatoDTO result =
                 given()
@@ -93,6 +92,89 @@ public class ContatoService {
                 .then()
                         .statusCode(200)
                         .extract().as(ContatoDTO[].class)
+                ;
+        return result;
+    }
+
+    //Cenários Negativos:
+
+    @Test
+    public Response adicionarContatoComCampoNulo(Object jsonBody, Integer idPessoa) {
+        Response result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdm)
+                        .contentType(ContentType.JSON)
+                        .body(jsonBody)
+                        .when()
+                        .post(baseUrl + "/contato/"+idPessoa)
+                        .then()
+                        .log().all()
+                        .statusCode(404)
+                        .extract().response()
+                ;
+        return result;
+    }
+
+    @Test
+    public Response deletarContatoInexistente(Integer idContato) {
+        Response result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdm)
+                        .when()
+                        .delete(baseUrl + "/contato/"+idContato)
+                        .then()
+                        .log().all()
+                        .statusCode(404)
+                        .extract().response()
+                ;
+        return result;
+    }
+
+    @Test
+    public Response atualizarContatoInexistente(Integer idContato) {
+        Response result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdm)
+                        .when()
+                        .put(baseUrl + "/contato/"+idContato)
+                        .then()
+                        .log().all()
+                        .statusCode(404)
+                        .extract().response()
+                ;
+        return result;
+    }
+
+    public Response listarContatosSemAutenticacao() {
+
+        Response result =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .get(baseUrl + "/contato")
+                        .then()
+                        .log().all()
+                        .statusCode(403)
+                        .extract().response()
+                ;
+        return result;
+    }
+
+    public Response buscarContatoPorIdPessoaInexistente(Integer idPessoa) {
+        Response result =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdm)
+                        .when()
+                        .get(baseUrl + "/contato/"+idPessoa)
+                        .then()
+                        .log().all()
+                        .statusCode(404)
+                        .extract().response()
                 ;
         return result;
     }

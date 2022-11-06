@@ -65,7 +65,7 @@ public class PessoaAceitacao {
     }
 
     @Test
-    public void testeDeveListarUsusarios() {
+    public void testeDeveListarUsuarios() {
         ListaPessoasDTO resultservice = service.listarUsuarios(0, 50);
 
         compare(resultservice.getSize(), 50);
@@ -102,7 +102,7 @@ public class PessoaAceitacao {
     }
 
     @Test
-    public void testeBuscarListaDeContatosUsusario() throws IOException {
+    public void testeBuscarListaDeContatosUsuario() throws IOException {
         PessoaCreateDTO novaPessoa = Util.novaPessoa();
         PessoaDTO resultService = service.adicionarUsuarioNovo(novaPessoa);
 
@@ -117,4 +117,79 @@ public class PessoaAceitacao {
         serviceContato.deletarContato(responseContatos.getIdContato());
         service.deletarUser(resultService.getIdPessoa());
     }
+
+    // Cenários de Testes Negativos:
+
+    @Test
+    public void testeAdcionarUsuarioComCamposNulos() throws IOException {
+    //não existe na API nenhuma informação de que para adicionar uma Pessoa, os campos são obrigatórios.
+
+        PessoaCreateDTO novaPessoa = Util.novaPessoa();
+        novaPessoa.setCpf(null);
+
+        Response resultService = service.adicionarUsuariocomCamposNulos(novaPessoa);
+
+        Assert.assertEquals(resultService.getStatusCode(), 400);
+
+    }
+    @Test
+    public void testeDeletarUsuarioInexistente() throws IOException {
+
+        Integer idPessoaInexistente = -80;
+
+        Response responseService = service.deletarUserInexistente(idPessoaInexistente);
+
+        Assert.assertEquals(responseService.getStatusCode(), 404);
+    }
+
+    @Test
+    public void testeAtualizarUsuarioInexitente() throws IOException {
+
+        Integer idPessoaInexistente = -1;
+
+        Response responseService = service.atualizarUserInexistente(idPessoaInexistente);
+
+
+        Assert.assertEquals(responseService.getStatusCode(), 404);
+    }
+
+    @Test
+    public void testeListarUsuariosComPaginaInvalida() {
+        Response resultservice = service.listarUsuariosEmPaginaInvalida(-3, 50);
+
+        Assert.assertEquals(resultservice.getStatusCode(), 500);
+    }
+
+    @Test
+    public void testeDeveBuscarCpfIncorreto() throws IOException {
+        //estou tentando gerar a exception, mas não consigo.
+       int cpfIncorreto = 1;
+
+        Response resultservice = service.buscarPorCpfIncorreto(cpfIncorreto);
+
+        Assert.assertEquals(resultservice.getStatusCode(), 500);
+    }
+
+    @Test
+    public void testeBuscarListaDeContatosUsuarioPorIDInvalido() throws IOException {
+        Integer idInvalido = -32;
+
+
+        Response resulResponse = service.buscarListaComContatosPorIDInvalido(idInvalido);
+
+        Assert.assertEquals(resulResponse.getStatusCode(), 404);
+
+    }
+
+    @Test
+    public void buscarPessoaPassandoNumeroInvésDeString() throws IOException {
+       Integer numero = 3;
+
+        Response resulResponse = service.buscarPessoaPassandoNumeroInvesDeString(numero);
+
+        Assert.assertEquals(resulResponse.getStatusCode(), 400);
+    }
+
+
+
 }

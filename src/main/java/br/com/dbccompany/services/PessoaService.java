@@ -140,4 +140,124 @@ public class PessoaService {
 //                ;
 //        return result;
 //    }
+
+
+
+    // Cenários Negativos:
+
+    public Response adicionarUsuariocomCamposNulos(Object jsonBody) {
+        Response response =
+                given()
+                        .log().all()
+                        .header("Authorization", tokenAdm)
+                        .contentType(ContentType.JSON)
+                        .body(jsonBody)
+                        .when()
+                        .post(baseUrl + "/pessoa")
+                        .then()
+                        .log().all()
+                        .statusCode(400)
+                        .extract().response()
+                ;
+
+        return response;
+    }
+
+    public Response deletarUserInexistente(Integer idPessoa) {
+        Response response =
+                given()
+                        .header("Authorization", tokenAdm)
+                        .when()
+                        .delete(baseUrl + "/pessoa/"+idPessoa)
+                        .then()
+                        .log().all()
+                        .statusCode(404)
+                        .extract().response()
+                ;
+        return response;
+    }
+
+    public Response atualizarUserInexistente(Integer idPessoaInexistente) {
+        Response response =
+                given()
+                        .header("Authorization", tokenAdm)
+                        .when()
+                        .put(baseUrl + "/pessoa/"+idPessoaInexistente)
+                        .then()
+                        .log().all()
+                        .statusCode(404)
+                        .extract().response()
+                ;
+        return response;
+    }
+
+        public Response listarUsuariosEmPaginaInvalida(Integer pagina, Integer tamanhoDasPaginas) {
+
+            Response response =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", tokenAdm)
+                        .queryParam("pagina", pagina)
+                        .queryParam("tamanhoDasPaginas", tamanhoDasPaginas)
+                        .when()
+                        .get(baseUrl + "/pessoa")
+                        .then()
+                        .log().all()
+                        .statusCode(500)
+                        .extract().response()
+                ;
+            return response;
+    }
+    public Response buscarPorCpfIncorreto(int cpf) {
+
+        Response result =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", tokenAdm)
+                        .when()
+                        .get(baseUrl + "/pessoa/"+cpf+"/cpf")
+                        .then()
+                        .log().all()
+                        .statusCode(500)
+                        .extract().response()
+                ;
+        return result;
+    }
+    public Response buscarListaComContatosPorIDInvalido (Integer idPessoa) {
+
+        Response result =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", tokenAdm)
+                        .queryParam("idPessoa", idPessoa)
+                        .when()
+                        .get(baseUrl + "/pessoa/lista-com-contatos")
+                        .then()
+                        .log().all()
+                        .statusCode(404)
+                        .extract().response()
+                ;
+        return result;
+    }
+
+    public Response buscarPessoaPassandoNumeroInvesDeString(Integer numero) {
+
+        Response result =
+                given()
+                        .log().all()
+                        .contentType(ContentType.JSON)
+                        .header("Authorization", tokenAdm)
+                        .queryParam("numero", numero)
+                        .when()
+                        .get(baseUrl + "/pessoa/byname")
+                        .then()
+                        .log().all()
+                        .statusCode(400)
+                        .extract().response()
+                ;
+        return result;
+    }
 }
